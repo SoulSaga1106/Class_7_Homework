@@ -1,0 +1,60 @@
+#!/bin/bash
+set -euxo pipefail
+
+# --------------------------------------
+# Update all installed packages
+# --------------------------------------
+yum update -y
+
+# --------------------------------------
+# Install basic tools Jenkins/user data may need
+# --------------------------------------
+yum install -y wget git
+
+# --------------------------------------
+# Add the Jenkins repository to yum sources
+# --------------------------------------
+wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+# --------------------------------------
+# Import the Jenkins GPG key to verify packages
+# --------------------------------------
+rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+# --------------------------------------
+# Upgrade all packages (including those from the new Jenkins repo)
+# --------------------------------------
+yum upgrade -y
+
+# --------------------------------------
+# Install Amazon Corretto 21
+# Week 27 Homework:
+# Rebuild the Jenkins server as an EC2 OR in a Docker image,
+# using Java 21 instead of Java 17
+# --------------------------------------
+yum install -y java-21-amazon-corretto
+
+# --------------------------------------
+# Make Java 21 the system default
+# --------------------------------------
+alternatives --set java /usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/java
+
+# --------------------------------------
+# Verify Java version during bootstrap
+# --------------------------------------
+java -version
+
+# --------------------------------------
+# Install Jenkins
+# --------------------------------------
+yum install -y jenkins
+
+# --------------------------------------
+# Enable Jenkins to start at boot
+# --------------------------------------
+systemctl enable jenkins
+
+# --------------------------------------
+# Start the Jenkins service
+# --------------------------------------
+systemctl start jenkins
