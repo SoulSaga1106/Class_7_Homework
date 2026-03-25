@@ -27,8 +27,8 @@ rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 yum upgrade -y
 
 # --------------------------------------
-# Install Amazon Corretto 21
 # Week 27 Homework:
+# Install Amazon Corretto 21
 # Rebuild the Jenkins server as an EC2 OR in a Docker image,
 # using Java 21 instead of Java 17
 # --------------------------------------
